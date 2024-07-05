@@ -24,9 +24,9 @@
             color: #ffffff;
             padding: 10px;
             text-align: center;
-            position: relative; /* Add this line */
+            position: relative;
         }
-        .chat-count { /* Add this block */
+        .chat-count {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -82,37 +82,50 @@
         </div>
         <div class="input-bar">
             <input type="text" class="input-field" placeholder="Type your message...">
-            <button class="send-button">Send</button>
+            <button class="send-button" onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
-        // JavaScript logic (same as before) with added functionality
         const chatMessages = document.querySelector('.chat-messages');
         const inputField = document.querySelector('.input-field');
         const sendButton = document.querySelector('.send-button');
+        let chatCount = 40;
 
-        // Example: Handle sending a message
-        sendButton.addEventListener('click', () => {
-            const userText = inputField.value;
-            addUserMessage(userText);
-            // Implement logic to send the user's request to DiNg (not shown here)
-            // Receive the AI's response and call addAiMessage(response) with the AI's reply
-            inputField.value = ''; // Clear the input
-        });
-
-        // Example: Simulate an AI response (you'll need to replace this with actual AI logic)
-        function simulateAiResponse() {
-            const aiResponse = "Sure, here's your requested story: Once upon a time...";
-            addAiMessage(aiResponse + " 😊"); // Add an emoji to the AI's response
-            chatCount--; // Decrease the chat count
-            updateChatCount(); // Update the display
+        // Function to add user message
+        function addUserMessage(message) {
+            const userMessage = document.createElement('div');
+            userMessage.className = 'user-message';
+            userMessage.textContent = message;
+            chatMessages.appendChild(userMessage);
         }
 
-        // Example: Simulate receiving an AI response after a delay (for demonstration purposes)
-        setTimeout(simulateAiResponse, 2000); // Simulate a 2-second delay
+        // Function to add AI message
+        function addAiMessage(message) {
+            const aiMessage = document.createElement('div');
+            aiMessage.className = 'ai-message';
+            aiMessage.textContent = message;
+            chatMessages.appendChild(aiMessage);
+            chatCount--;
+            updateChatCount();
+        }
 
-        // Example: Update the chat count display
+        // Function to simulate AI response (replace with actual AI logic)
+        function simulateAiResponse(userText) {
+            // Example: AI responds with a reversed message
+            const aiResponse = userText.split('').reverse().join('');
+            addAiMessage(aiResponse + ' 😊');
+        }
+
+        // Function to handle sending a message
+        function sendMessage() {
+            const userText = inputField.value;
+            addUserMessage(userText);
+            simulateAiResponse(userText);
+            inputField.value = ''; // Clear the input
+        }
+
+        // Function to update chat count display
         function updateChatCount() {
             const chatCountElement = document.querySelector('.chat-count');
             chatCountElement.textContent = `Chats left: ${chatCount}`;
