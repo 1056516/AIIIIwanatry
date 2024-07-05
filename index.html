@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiNg Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #0078d4;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            position: relative; /* Add this line */
+        }
+        .chat-count { /* Add this block */
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #ccc;
+        }
+        .chat-messages {
+            padding: 10px;
+            overflow-y: scroll;
+            max-height: 400px;
+        }
+        .user-message,
+        .ai-message {
+            background-color: #f0f0f0;
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .ai-message {
+            background-color: #0078d4;
+            color: #ffffff;
+        }
+        .input-bar {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        .input-field {
+            flex-grow: 1;
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+        .send-button {
+            background-color: #0078d4;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            DiNg Chat
+            <span class="chat-count">Chats left: 40</span>
+        </div>
+        <div class="chat-messages">
+            <!-- Messages will appear here -->
+        </div>
+        <div class="input-bar">
+            <input type="text" class="input-field" placeholder="Type your message...">
+            <button class="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript logic (same as before) with added functionality
+        const chatMessages = document.querySelector('.chat-messages');
+        const inputField = document.querySelector('.input-field');
+        const sendButton = document.querySelector('.send-button');
+
+        // Example: Handle sending a message
+        sendButton.addEventListener('click', () => {
+            const userText = inputField.value;
+            addUserMessage(userText);
+            // Implement logic to send the user's request to DiNg (not shown here)
+            // Receive the AI's response and call addAiMessage(response) with the AI's reply
+            inputField.value = ''; // Clear the input
+        });
+
+        // Example: Simulate an AI response (you'll need to replace this with actual AI logic)
+        function simulateAiResponse() {
+            const aiResponse = "Sure, here's your requested story: Once upon a time...";
+            addAiMessage(aiResponse + " 😊"); // Add an emoji to the AI's response
+            chatCount--; // Decrease the chat count
+            updateChatCount(); // Update the display
+        }
+
+        // Example: Simulate receiving an AI response after a delay (for demonstration purposes)
+        setTimeout(simulateAiResponse, 2000); // Simulate a 2-second delay
+
+        // Example: Update the chat count display
+        function updateChatCount() {
+            const chatCountElement = document.querySelector('.chat-count');
+            chatCountElement.textContent = `Chats left: ${chatCount}`;
+        }
+    </script>
+</body>
+</html>
