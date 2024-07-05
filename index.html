@@ -3,132 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DiNg Chat</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
+        /* Chat container styles */
         .chat-container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        .chat-header {
-            background-color: #0078d4;
-            color: #ffffff;
-            padding: 10px;
-            text-align: center;
-            position: relative;
-        }
-        .chat-count {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 12px;
-            color: #ccc;
-        }
-        .chat-messages {
-            padding: 10px;
-            overflow-y: scroll;
             max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
         }
-        .user-message,
-        .ai-message {
+
+        /* Chat message styles */
+        .user-message {
             background-color: #f0f0f0;
+            border-radius: 10px;
             padding: 5px;
-            border-radius: 5px;
             margin-bottom: 10px;
         }
+
         .ai-message {
-            background-color: #0078d4;
-            color: #ffffff;
-        }
-        .input-bar {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-top: 1px solid #ccc;
-        }
-        .input-field {
-            flex-grow: 1;
+            background-color: #e0e0e0;
+            border-radius: 10px;
             padding: 5px;
-            border: none;
-            border-radius: 5px;
+            margin-bottom: 10px;
         }
-        .send-button {
-            background-color: #0078d4;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
+
+        /* Maximum chats reached message */
+        .max-chats-message {
+            background-color: rgba(255, 165, 0, 0.7);
+            border-radius: 10px;
+            padding: 5px;
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">
-            DiNg Chat
-            <span class="chat-count">Chats left: 40</span>
-        </div>
-        <div class="chat-messages">
-            <!-- Messages will appear here -->
-        </div>
-        <div class="input-bar">
-            <input type="text" class="input-field" placeholder="Type your message...">
-            <button class="send-button" onclick="sendMessage()">Send</button>
-        </div>
-    </div>
+    <div class="chat-container" id="chatContainer"></div>
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+    <div class="max-chats-message" id="maxChatsMessage"></div>
 
     <script>
-        const chatMessages = document.querySelector('.chat-messages');
-        const inputField = document.querySelector('.input-field');
-        const sendButton = document.querySelector('.send-button');
-        let chatCount = 40;
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const maxChatsMessage = document.getElementById('maxChatsMessage');
+        let chatCount = 0;
 
-        // Function to add user message
-        function addUserMessage(message) {
-            const userMessage = document.createElement('div');
-            userMessage.className = 'user-message';
-            userMessage.textContent = message;
-            chatMessages.appendChild(userMessage);
-        }
-
-        // Function to add AI message
-        function addAiMessage(message) {
-            const aiMessage = document.createElement('div');
-            aiMessage.className = 'ai-message';
-            aiMessage.textContent = message;
-            chatMessages.appendChild(aiMessage);
-            chatCount--;
-            updateChatCount();
-        }
-
-        // Function to simulate AI response (replace with actual AI logic)
-        function simulateAiResponse(userText) {
-            // Example: AI responds with a reversed message
-            const aiResponse = userText.split('').reverse().join('');
-            addAiMessage(aiResponse + ' 😊');
-        }
-
-        // Function to handle sending a message
         function sendMessage() {
-            const userText = inputField.value;
-            addUserMessage(userText);
-            simulateAiResponse(userText);
-            inputField.value = ''; // Clear the input
-        }
+            const userMessage = userInput.value.trim();
+            if (userMessage) {
+                if (chatCount >= 40) {
+                    maxChatsMessage.textContent = 'Maximum chats reached!';
+                    return;
+                }
 
-        // Function to update chat count display
-        function updateChatCount() {
-            const chatCountElement = document.querySelector('.chat-count');
-            chatCountElement.textContent = `Chats left: ${chatCount}`;
+                // Simulate AI response (you can replace this with actual AI logic)
+                const aiResponse = `AI: ${userMessage} (mood: 😊)`;
+                const aiMessage = document.createElement('div');
+                aiMessage.classList.add('ai-message');
+                aiMessage.textContent = aiResponse;
+                chatContainer.appendChild(aiMessage);
+
+                chatCount++;
+                userInput.value = '';
+                maxChatsMessage.textContent = '';
+            }
         }
     </script>
 </body>
